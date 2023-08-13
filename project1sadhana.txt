@@ -1,0 +1,85 @@
+from tkinter import *
+from tkinter import messagebox as msg
+class Mypage:
+    def __init__(self):
+        root=Tk()
+        root.title("mypage")
+        root.geometry("400x400")
+        root.config(bg="pink")
+        b1=Button(root,text="admin",bg="pink",fg="black",font="bold 20",command=self.admin)
+        b1.place(x=20,y=100)
+        b2 = Button(root, text="user", bg="pink", fg="black", font="bold 20", command=self.user)
+        b2.place(x=20, y=180)
+        root.mainloop()
+    def admin(self):
+        root1=Tk()
+        root1.title("admin")
+        root1.geometry("400x400")
+        root1.config(bg="pink")
+        bookname=Label(root1,text="bookname",bg="pink",fg="black",font="bold 20")
+        bookname.place(x=20,y=100)
+        self.U_box=Entry(root1)
+        self.U_box.place(x=160,y=120)
+        Author=Label(root1,text="Author",bg="pink",fg="black",font="bold 20")
+        Author.place(x=20,y=140)
+        self.A_box=Entry(root1)
+        self.A_box.place(x=120,y=160)
+        quanity=Label(root1,text="quanity",bg="pink",fg="black",font="bold 20")
+        quanity.place(x=20,y=170)
+        self.B_box=Entry(root1)
+        self.B_box.place(x=130,y=190)
+        submit=Button(root1,text="submit",bg="pink",fg="black",font="bold 20",command=self.admin_add)
+        submit.place(x=150,y=230)
+        root1.mainloop()
+    def user(self):
+        root2 = Tk()
+        root2.title("user")
+        root2.geometry("400x400")
+        root2.config(bg="pink")
+        bookname = Label(root2, text="bookname",bg="pink",fg="black",font="bold 20")
+        bookname.place(x=20, y=100)
+        self.V_box = Entry(root2)
+        self.V_box.place(x=150, y=110)
+        Author=Label(root2,text="Author",bg="pink",fg="black",font="bold 20")
+        Author.place(x=20,y=140)
+        self.C_box=Entry(root2)
+
+        self.C_box.place(x=140,y=150)
+        submit = Button(root2, text="submit", bg="pink", fg="black", font="bold 20", command=self.user_add)
+        submit.place(x=180, y=180)
+        root2.mainloop()
+    def adminvalidation(self):
+        uname=self.U_box.get()
+        aname=self.A_box.get()
+        bname=self.B_box.get()
+    def uservalidation(self):
+        pname=self.V_box.get()
+        cname=self.C_box.get()
+    def admin_add(self):
+        import mysql.connector
+        mydb=mysql.connector.connect(host="localhost",port=3306,user="root",password="root",database="library_managment")
+        mycursor=mydb.cursor()
+        bname=self.U_box.get()
+        Author=self.A_box.get()
+        qname=self.B_box.get()
+        mycursor.execute("insert into admin values(%s,%s,%s)",(bname,Author,qname))
+        mydb.commit()
+        msg.showinfo("admin book","book added to stock")
+    def user_add(self):
+        import mysql.connector
+        mydb = mysql.connector.connect(host="localhost", port=3306, user="root", password="root",
+                                       database="library_managment")
+        mycursor = mydb.cursor()
+        cname=self.V_box.get()
+        aname=self.C_box.get()
+        mycursor.execute("insert into user values(%s,%s)",(cname,aname))
+        mydb.commit()
+        msg.showinfo("user book","book added to stock")
+
+
+m=Mypage()
+m.admin()
+m.user()
+
+
+
